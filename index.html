@@ -44,6 +44,15 @@ h1{font-size:22px;margin:14px 0 22px}
 var APP_URL = atob('Y2V4ZS93ZEZ2RkN5R2pYQ2MzZ2pRR211SE9Xb0ZITzdGa2ZPYnJxbGwxbHdqS0w2ZTNWV3FHZ3NSZDV4SlNjbm5BNFZ0NUlRd2JjeWZLQS9zL3NvcmNhbS9tb2MuZWxnb29nLnRwaXJjcy8vOnNwdHRo').split('').reverse().join('');
 // ホーム画面から始める（2026-11-22）
 APP_URL += (APP_URL.indexOf('?') < 0 ? '?' : '&') + 'home=1';
+// その人の印（k）を、この入り口ページに覚えておき、アプリを開くときに付ける（2026-11-22n）
+//   アプリを新しくデプロイして、アプリの中の名前が消えても、名前が戻る。?k=- で忘れる。
+var KEY_LS = 'kouseiNameKey';
+var mk = location.search.match(/[?&]k=([^&]*)/), savedK = '';
+try {
+  if (mk) { var nk = decodeURIComponent(mk[1]); if (nk === '-') localStorage.removeItem(KEY_LS); else if (/^[a-z0-9]{16}$/.test(nk)) localStorage.setItem(KEY_LS, nk); }
+  savedK = localStorage.getItem(KEY_LS) || '';
+} catch (e) { if (mk && /^[a-z0-9]{16}$/.test(mk[1])) savedK = mk[1]; }
+APP_URL += '&ep=1' + (/^[a-z0-9]{16}$/.test(savedK) ? '&k=' + savedK : '');
 (function () {
   document.getElementById('go').href = APP_URL;
   var standalone = window.navigator.standalone === true ||
