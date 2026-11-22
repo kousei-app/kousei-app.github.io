@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>光星アプリ</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1a2f5e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="光星アプリ">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#1f2a44;--sub:#5b6680;--acc:#2b4a8b}
+@media (prefers-color-scheme:dark){:root{--bg:#121826;--card:#1c2436;--ink:#eef2fa;--sub:#a9b3c9;--acc:#7fa2e8}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.box{width:100%;max-width:420px;text-align:center}
+.icon{width:96px;height:96px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+h1{font-size:22px;margin:14px 0 22px}
+.go{display:block;background:var(--acc);color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:15px;border-radius:14px}
+.card{background:var(--card);border-radius:14px;padding:16px 18px;margin-top:22px;text-align:left;font-size:15px;line-height:1.7}
+.card b{display:block;margin-bottom:4px}
+.card ol{margin:0;padding-left:1.3em;color:var(--sub)}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <img class="icon" src="apple-touch-icon.png" alt="">
+  <h1>光星アプリ</h1>
+  <a class="go" id="go" href="#">アプリを開く</a>
+  <div class="card hide" id="ios"><b>ホーム画面に追加する（iPhone）</b>
+    <ol><li>下の <span aria-label="共有">共有ボタン（□に↑）</span>を押す</li><li>「ホーム画面に追加」を押す</li><li>右上の「追加」を押す</li></ol></div>
+  <div class="card hide" id="and"><b>ホーム画面に追加する（Android）</b>
+    <ol><li>右上の「︙」を押す</li><li>「ホーム画面に追加」を押す</li><li>「追加」を押す</li></ol></div>
+</div>
+<script>
+// ▼アプリのURL（検索で見つかりにくいように、形を変えてあります。変えるときはClaudeに頼んでください）
+var APP_URL = atob('Y2V4ZS93ZEZ2RkN5R2pYQ2MzZ2pRR211SE9Xb0ZITzdGa2ZPYnJxbGwxbHdqS0w2ZTNWV3FHZ3NSZDV4SlNjbm5BNFZ0NUlRd2JjeWZLQS9zL3NvcmNhbS9tb2MuZWxnb29nLnRwaXJjcy8vOnNwdHRo').split('').reverse().join('');
+(function () {
+  document.getElementById('go').href = APP_URL;
+  var standalone = window.navigator.standalone === true ||
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  // ホーム画面のアイコンから開いたとき、または ?go をつけたときは、すぐアプリへ
+  if (standalone || /[?&]go\b/.test(location.search)) {
+    document.getElementById('box').style.visibility = 'hidden';
+    location.replace(APP_URL);
+    return;
+  }
+  var ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document)) document.getElementById('ios').className = 'card';
+  else if (/Android/.test(ua)) document.getElementById('and').className = 'card';
+})();
+</script>
+</body>
+</html>
